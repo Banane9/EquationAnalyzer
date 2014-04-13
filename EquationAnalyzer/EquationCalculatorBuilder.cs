@@ -89,6 +89,8 @@ namespace EquationAnalyzer.GeneratedClasses
                 }
             }
 
+            generatedClass += "            Dictionary<string, double> previousVars = new Dictionary<string, double>();\r\n\r\n";
+
             int depth = 0;
             foreach (KeyValuePair<string, EquationVariable> varRange in varRanges)
             {
@@ -126,7 +128,10 @@ namespace EquationAnalyzer.GeneratedClasses
 " + depthPadding + "else if (is" + test.Key.Replace(" ", "") + " && !(" + test.Value.Expression + @"))
 " + depthPadding + @"{
 " + depthPadding + "    is" + test.Key.Replace(" ", "") + @" = false;
-" + depthPadding + "    testResults[\"" + test.Key + "\"].Add(new RangeEquationTestResult() { Start = start" + test.Key.Replace(" ", "") + ", End = vars });\r\n" + depthPadding + "}";
+" + depthPadding + "    testResults[\"" + test.Key + "\"].Add(new RangeEquationTestResult() { Start = start" + test.Key.Replace(" ", "") + @", End = previousVars });
+" + depthPadding + @"}
+
+" + depthPadding + "previousVars = vars;";
                 }
             }
 

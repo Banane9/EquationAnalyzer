@@ -14,14 +14,13 @@ namespace EquationAnalyzer
         public static void Main(string[] args)
         {
             Dictionary<string, string> equations = new Dictionary<string, string> {
-                { "o", "-6.1 * Math.Cos((Math.PI / 0.41483) * vars[\"x\"]) + 22.1" },
-                { "oD", "(6.1 * (Math.PI / 0.41483)) * Math.Sin((Math.PI / 0.41483) * vars[\"x\"])" },
-                { "t", "-7.8 * Math.Cos((Math.PI / 0.39583) * vars[\"x\"]) + 25" },
-                { "tD", "(7.8 * (Math.PI / 0.39583)) * Math.Sin((Math.PI / 0.39583) * vars[\"x\"])" }
+                { "k", "-4.8 * Math.Cos((Math.PI / 10) * vars[\"t\"]) + 5.2"},
+                { "p", "-21.75 * Math.Cos((Math.PI / 18) * vars[\"t\"]) + 25.25"},
+                {"pD", "(21.75 * (Math.PI / 18)) * Math.Sin((Math.PI / 18) * vars[\"t\"])"}
             };
 
             string name;
-            CompilerResults results = EquationCalculatorBuilder.BuildEquationCalculator(equations, new Dictionary<string, EquationTest>() { { "Y Equal", new EquationTest() { Expression = "results[\"o\"] + 0.0001 > results[\"t\"] && results[\"o\"] - 0.0001 < results[\"t\"]", Type = TestTypes.Point } }, { "Both Decreasing Together", new EquationTest() { Expression = "results[\"oD\"] < 0 && results[\"tD\"] < 0", Type = TestTypes.Range } }, { "Both Increasing Together Over 25", new EquationTest() { Expression = "results[\"oD\"] > 0 && results[\"tD\"] > 0 && results[\"o\"] > 25 && results[\"t\"] > 25", Type = TestTypes.Range } } }, new Dictionary<string, EquationVariable>() { { "x", new EquationVariable() { End = 10, Start = 0, StepSize = 0.00001 } } }, out name);
+            CompilerResults results = EquationCalculatorBuilder.BuildEquationCalculator(equations, new Dictionary<string, EquationTest>() { { "Bradley Sees Nathan", new EquationTest() { Type = TestTypes.Range, Expression = "results[\"pD\"] > 0 && results[\"p\"] > 6 && results[\"p\"] < 22 && results[\"k\"] > 6" } } }, new Dictionary<string, EquationVariable>() { { "t", new EquationVariable() { Start = 0, End = 180, StepSize = 0.00001 } } }, out name);
             if (results.Errors.Count > 0)
             {
                 foreach (CompilerError error in results.Errors)
