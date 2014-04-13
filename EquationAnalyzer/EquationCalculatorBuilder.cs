@@ -44,7 +44,7 @@ namespace EquationAnalyzer.GeneratedClasses
             foreach (KeyValuePair<string, string> equation in equations)
             {
                 generatedClass +=
-@"        public static double " + equation.Key + @"(Dictionary<string, double> vars)
+@"        public static double " + equation.Key.Replace(" ", "") + @"(Dictionary<string, double> vars)
         {
             return " + equation.Value + @";
         }
@@ -61,7 +61,7 @@ namespace EquationAnalyzer.GeneratedClasses
 
             foreach (KeyValuePair<string, string> equation in equations)
             {
-                generatedClass += "                { \"" + equation.Key + "\", " + equation.Key + "(vars)" + " },\r\n";
+                generatedClass += "                { \"" + equation.Key.Replace(" ", "") + "\", " + equation.Key.Replace(" ", "") + "(vars)" + " },\r\n";
             }
 
             generatedClass +=
@@ -84,8 +84,8 @@ namespace EquationAnalyzer.GeneratedClasses
             {
                 if (test.Value.Type == TestTypes.Range)
                 {
-                    generatedClass += "            bool is" + test.Key + " = false;\r\n";
-                    generatedClass += "            Dictionary<string, double> start" + test.Key + " = new Dictionary<string, double>();\r\n\r\n";
+                    generatedClass += "            bool is" + test.Key.Replace(" ", "") + " = false;\r\n";
+                    generatedClass += "            Dictionary<string, double> start" + test.Key.Replace(" ", "") + " = new Dictionary<string, double>();\r\n\r\n";
                 }
             }
 
@@ -93,7 +93,7 @@ namespace EquationAnalyzer.GeneratedClasses
             foreach (KeyValuePair<string, EquationVariable> varRange in varRanges)
             {
                 string padding = "".PadLeft(12 + (4 * depth));
-                generatedClass += padding + "for (double " + varRange.Key + " = " + varRange.Value.Start.ToString().Replace(',', '.') + "; " + varRange.Key + " <= " + varRange.Value.End.ToString().Replace(',', '.') + "; " + varRange.Key + " += " + varRange.Value.StepSize.ToString().Replace(',', '.') + @")
+                generatedClass += padding + "for (double " + varRange.Key.Replace(" ", "") + " = " + varRange.Value.Start.ToString().Replace(',', '.') + "; " + varRange.Key.Replace(" ", "") + " <= " + varRange.Value.End.ToString().Replace(',', '.') + "; " + varRange.Key.Replace(" ", "") + " += " + varRange.Value.StepSize.ToString().Replace(',', '.') + @")
 " + padding + "{\r\n";
 
                 depth++;
@@ -103,7 +103,7 @@ namespace EquationAnalyzer.GeneratedClasses
             generatedClass += depthPadding + "Dictionary<string, double> vars = new Dictionary<string, double>() {";
             foreach (string varName in varRanges.Select(varRange => varRange.Key))
             {
-                generatedClass += " { \"" + varName + "\", " + varName + " },";
+                generatedClass += " { \"" + varName + "\", " + varName.Replace(" ", "") + " },";
             }
             generatedClass += @" };
 " + depthPadding + "Dictionary<string, double> results = CalculateAll(vars);";
@@ -118,15 +118,15 @@ namespace EquationAnalyzer.GeneratedClasses
                 }
                 else if (test.Value.Type == TestTypes.Range)
                 {
-                    generatedClass += "\r\n\r\n" + depthPadding + "if (!is" + test.Key + " && (" + test.Value.Expression + @"))
+                    generatedClass += "\r\n\r\n" + depthPadding + "if (!is" + test.Key.Replace(" ", "") + " && (" + test.Value.Expression + @"))
 " + depthPadding + @"{
-" + depthPadding + "    is" + test.Key + @" = true;
-" + depthPadding + "    start" + test.Key + @" = vars;
+" + depthPadding + "    is" + test.Key.Replace(" ", "") + @" = true;
+" + depthPadding + "    start" + test.Key.Replace(" ", "") + @" = vars;
 " + depthPadding + @"}
-" + depthPadding + "else if (is" + test.Key + " && !(" + test.Value.Expression + @"))
+" + depthPadding + "else if (is" + test.Key.Replace(" ", "") + " && !(" + test.Value.Expression + @"))
 " + depthPadding + @"{
-" + depthPadding + "    is" + test.Key + @" = false;
-" + depthPadding + "    testResults[\"" + test.Key + "\"].Add(new RangeEquationTestResult() { Start = start" + test.Key + ", End = vars });\r\n" + depthPadding + "}";
+" + depthPadding + "    is" + test.Key.Replace(" ", "") + @" = false;
+" + depthPadding + "    testResults[\"" + test.Key + "\"].Add(new RangeEquationTestResult() { Start = start" + test.Key.Replace(" ", "") + ", End = vars });\r\n" + depthPadding + "}";
                 }
             }
 

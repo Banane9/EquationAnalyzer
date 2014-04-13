@@ -14,15 +14,14 @@ namespace EquationAnalyzer
         public static void Main(string[] args)
         {
             Dictionary<string, string> equations = new Dictionary<string, string> {
-                { "f", "-6.1 * Math.Cos((Math.PI / 0.41483) * vars[\"x\"]) + 22.1" },
-                { "c", "-7.8 * Math.Cos((Math.PI / 0.39583) * vars[\"x\"]) + 25" },
-                { "t", "c(vars)"}
+                { "o", "-6.1 * Math.Cos((Math.PI / 0.41483) * vars[\"x\"]) + 22.1" },
+                { "oD", "(6.1 * (Math.PI / 0.41483)) * Math.Sin((Math.PI / 0.41483) * vars[\"x\"])" },
+                { "t", "-7.8 * Math.Cos((Math.PI / 0.39583) * vars[\"x\"]) + 25" },
+                { "tD", "(7.8 * (Math.PI / 0.39583)) * Math.Sin((Math.PI / 0.39583) * vars[\"x\"])" }
             };
 
             string name;
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            CompilerResults results = EquationCalculatorBuilder.BuildEquationCalculator(equations, new Dictionary<string, EquationTest>() { { "Point", new EquationTest() { Expression = "results[\"f\"] == results[\"c\"]", Type = TestTypes.Point } }, { "Range", new EquationTest() { Expression = "results[\"f\"] > 0 && results[\"c\"] > 0", Type = TestTypes.Range } } }, new Dictionary<string, EquationVariable>() { { "x", new EquationVariable() { End = 2 * Math.PI, Start = -2 * Math.PI, StepSize = 0.00001 } }, { "a", new EquationVariable() { End = -1, Start = 1, StepSize = 0.00001 } } }, out name);
+            CompilerResults results = EquationCalculatorBuilder.BuildEquationCalculator(equations, new Dictionary<string, EquationTest>() { { "Y Equal", new EquationTest() { Expression = "results[\"o\"] + 0.0001 > results[\"t\"] && results[\"o\"] - 0.0001 < results[\"t\"]", Type = TestTypes.Point } }, { "Both Decreasing Together", new EquationTest() { Expression = "results[\"oD\"] < 0 && results[\"tD\"] < 0", Type = TestTypes.Range } }, { "Both Increasing Together Over 25", new EquationTest() { Expression = "results[\"oD\"] > 0 && results[\"tD\"] > 0 && results[\"o\"] > 25 && results[\"t\"] > 25", Type = TestTypes.Range } } }, new Dictionary<string, EquationVariable>() { { "x", new EquationVariable() { End = 10, Start = 0, StepSize = 0.00001 } } }, out name);
             if (results.Errors.Count > 0)
             {
                 foreach (CompilerError error in results.Errors)
@@ -32,22 +31,49 @@ namespace EquationAnalyzer
             }
             else
             {
-                Console.WriteLine("Success!");
+                Console.Write("Compilation Success!");
 
                 Type calculator = results.CompiledAssembly.GetType(name);
-                MethodInfo calculate = calculator.GetMethod("CalculateAll");
+                MethodInfo runTests = calculator.GetMethod("RunTests");
 
-                int steps = 0;
-                Dictionary<double, Dictionary<string, double>> calcResults = new Dictionary<double, Dictionary<string, double>>();
-
-                for (double a = -2 * Math.PI; a <= 2 * Math.PI; a = a + 0.00001)
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                Dictionary<string, List<IEquationTestResult>> testResults = (Dictionary<string, List<IEquationTestResult>>)runTests.Invoke(null, null);
+                foreach (KeyValuePair<string, List<IEquationTestResult>> testResult in testResults)
                 {
-                    calcResults.Add(a, (Dictionary<string, double>)calculate.Invoke(null, new[] { new Dictionary<string, double> { { "x", a } } }));
-                    steps++;
+                    Console.Write("\r\n\r\nTest " + testResult.Key);
+                    foreach (IEquationTestResult result in testResult.Value)
+                    {
+                        switch (result.Type)
+                        {
+                            case TestTypes.Point:
+                                Console.Write("\r\n  - True at (");
+                                foreach (KeyValuePair<string, double> var in ((PointEquationTestResult)result).Point)
+                                {
+                                    Console.Write(" " + var.Key + " = " + var.Value.ToString().Replace(',', '.') + ";");
+                                }
+                                Console.Write(")");
+                                break;
+
+                            case TestTypes.Range:
+                                Console.Write("\r\n  - True from (");
+                                foreach (KeyValuePair<string, double> start in ((RangeEquationTestResult)result).Start)
+                                {
+                                    Console.Write(" " + start.Key + " = " + start.Value.ToString().Replace(',', '.') + ";");
+                                }
+                                Console.Write(") to (");
+                                foreach (KeyValuePair<string, double> end in ((RangeEquationTestResult)result).End)
+                                {
+                                    Console.Write(" " + end.Key + " = " + end.Value.ToString().Replace(',', '.') + ";");
+                                }
+                                Console.Write(")");
+                                break;
+                        }
+                    }
                 }
                 sw.Stop();
 
-                Console.WriteLine("Took " + sw.Elapsed.Seconds + "s and " + sw.Elapsed.Milliseconds + "ms for " + steps + " steps.");
+                Console.WriteLine("\r\n\r\nTook " + sw.Elapsed.Seconds + "s and " + sw.Elapsed.Milliseconds + "ms");
             }
 
             Console.ReadLine();
