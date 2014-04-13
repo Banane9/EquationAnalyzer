@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,17 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EquationParts\Addition.cs" />
-    <Compile Include="EquationParts\Division.cs" />
-    <Compile Include="EquationParts\Exponentiation.cs" />
-    <Compile Include="EquationParts\IOperation.cs" />
-    <Compile Include="EquationParts\Multiplication.cs" />
-    <Compile Include="EquationParts\Subtraction.cs" />
-    <Compile Include="EquationParts\Term.cs" />
-    <Compile Include="EquationParts\Value.cs" />
-    <Compile Include="EquationParts\Variable.cs" />
+    <Compile Include="EquationCalculatorBuilder.cs" />
+    <Compile Include="EquationTest.cs" />
+    <Compile Include="IEquationTestResult.cs" />
+    <Compile Include="PointEquationTestResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EquationVariable.cs" />
+    <Compile Include="RangeEquationTestResult.cs" />
+    <Compile Include="TestTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
