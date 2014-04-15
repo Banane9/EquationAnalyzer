@@ -1,0 +1,60 @@
+﻿<Window x:Class="EquationAnalyzer.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:EquationAnalyzer.WpfApp"
+        Title="Equation Analyzer" Height="600" Width="623">
+
+    <Grid>
+        <DataGrid x:Name="equationVariablesGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="230" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="60" />
+                <DataGridTextColumn Header="Start" Binding="{Binding Start}" Width="50" />
+                <DataGridTextColumn Header="End" Binding="{Binding End}" Width="50" />
+                <DataGridTextColumn Header="Step Size" Binding="{Binding StepSize}" Width="60" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="equationsGrid" HorizontalAlignment="Left" Margin="245,10,0,0" VerticalAlignment="Top" Height="100" Width="360" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="50" />
+                <DataGridTextColumn Header="Expression" Binding="{Binding Expression}" Width="300" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="equationTestsGrid" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Height="150" Width="595" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Active" Binding="{Binding Active}" Width="50" />
+                <DataGridComboBoxColumn Header="Type" Width="70" SelectedValueBinding="{Binding Type}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="50" />
+                <DataGridTextColumn Header="Expression" Binding="{Binding Expression}" Width="485" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="Run Tests" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="595" Click="Button_Click" />
+
+        <TabControl x:Name="testResultsTabControl" HorizontalAlignment="Left" Height="264" Margin="10,295,0,0" VerticalAlignment="Top" Width="595" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplateSelector>
+                <local:TestResultsDataTemplateSelector>
+
+                    <local:TestResultsDataTemplateSelector.PointTestResultTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}" />
+                        </DataTemplate>
+                    </local:TestResultsDataTemplateSelector.PointTestResultTemplate>
+
+                    <local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}" />
+                        </DataTemplate>
+                    </local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
+                </local:TestResultsDataTemplateSelector>
+            </TabControl.ContentTemplateSelector>
+        </TabControl>
+    </Grid>
+</Window>

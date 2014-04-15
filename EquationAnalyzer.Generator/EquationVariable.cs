@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EquationAnalyzer
+namespace EquationAnalyzer.Generator
 {
     public class EquationVariable
     {
         public double End { get; set; }
+
+        public string Name { get; set; }
 
         public double Start { get; set; }
 
