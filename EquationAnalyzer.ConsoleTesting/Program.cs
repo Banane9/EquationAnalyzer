@@ -51,7 +51,8 @@ namespace EquationAnalyzer.ConsoleTesting
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
-                IEquationTestResults[] testResults = (IEquationTestResults[])runTests.Invoke(null, null);
+                Progress<int> progress = new Progress<int>(value => Console.WriteLine(value));
+                IEquationTestResults[] testResults = (IEquationTestResults[])runTests.Invoke(null, new object[] { progress });
 
                 foreach (IEquationTestResults testResult in testResults)
                 {

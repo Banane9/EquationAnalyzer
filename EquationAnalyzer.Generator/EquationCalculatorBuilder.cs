@@ -70,7 +70,7 @@ namespace EquationAnalyzer.GeneratedClasses
 @"            };
         }
 
-        public static IEquationTestResults[] RunTests()
+        public static IEquationTestResults[] RunTests(IProgress<int> updateProgress)
         {
             IEquationTestResults[] testResults = new IEquationTestResults[]
             {
@@ -105,7 +105,12 @@ namespace EquationAnalyzer.GeneratedClasses
                 }
             }
 
-            generatedClass += "            Dictionary<string, double> previousVars = new Dictionary<string, double>();\r\n\r\n";
+            generatedClass += @"            Dictionary<string, double> previousVars = new Dictionary<string, double>();
+
+            int steps = 0;
+            int update = 0;
+
+";
 
             int depth = 0;
             foreach (EquationVariable variable in variables)
@@ -148,7 +153,20 @@ namespace EquationAnalyzer.GeneratedClasses
 " + depthPadding + "    ((RangeEquationTestResults)testResults[" + testIndexes[test.Name] + @"]).Ends.Add(vars);
 " + depthPadding + @"}
 
-" + depthPadding + "previousVars = vars;";
+" + depthPadding + @"previousVars = vars;
+
+" + depthPadding + @"steps++;
+" + depthPadding + @"update++;
+
+" + depthPadding;
+
+                    long steps = (long)variables.Select(variable => variable.End).Subtract(variables.Select(variable => variable.Start)).Divide(variables.Select(variable => variable.StepSize)).Product();
+
+                    generatedClass += "if (update >= " + (steps / 1000) + @")
+" + depthPadding + @"{
+" + depthPadding + @"    update = 0;
+" + depthPadding + "    updateProgress.Report((int)(((double)steps / (double)" + steps + @") * 100));
+" + depthPadding + "}";
                 }
             }
 

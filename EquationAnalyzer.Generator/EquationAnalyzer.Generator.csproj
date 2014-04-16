@@ -43,6 +43,7 @@
     <Compile Include="EquationCalculatorBuilder.cs" />
     <Compile Include="EquationTest.cs" />
     <Compile Include="EquationVariable.cs" />
+    <Compile Include="IEnumerableExpansions.cs" />
     <Compile Include="IEquationTestResults.cs" />
     <Compile Include="PointEquationTestResults.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

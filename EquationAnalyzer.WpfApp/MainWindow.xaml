@@ -32,7 +32,7 @@
 
         <Button Content="Run Tests" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="595" Click="Button_Click" />
 
-        <TabControl x:Name="testResultsTabControl" HorizontalAlignment="Left" Height="264" Margin="10,295,0,0" VerticalAlignment="Top" Width="595" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        <TabControl x:Name="testResultsTabControl" HorizontalAlignment="Left" Height="249" Margin="10,310,0,0" VerticalAlignment="Top" Width="595" DataContext="{Binding RelativeSource={RelativeSource Self}}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" />
@@ -56,5 +56,6 @@
                 </local:TestResultsDataTemplateSelector>
             </TabControl.ContentTemplateSelector>
         </TabControl>
+        <ProgressBar x:Name="testingProgress" HorizontalAlignment="Left" Height="10" Margin="10,295,0,0" VerticalAlignment="Top" Width="595" />
     </Grid>
 </Window>
