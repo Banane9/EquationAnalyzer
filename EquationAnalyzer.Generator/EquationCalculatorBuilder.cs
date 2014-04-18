@@ -70,7 +70,7 @@ namespace EquationAnalyzer.GeneratedClasses
 @"            };
         }
 
-        public static IEquationTestResults[] RunTests(IProgress<int> updateProgress)
+        public static IEquationTestResults[] RunTests(IProgress<double> updateProgress)
         {
             IEquationTestResults[] testResults = new IEquationTestResults[]
             {
@@ -159,13 +159,13 @@ namespace EquationAnalyzer.GeneratedClasses
 " + depthPadding + @"update++;
 
 " + depthPadding;
-
-                    long steps = (long)variables.Select(variable => variable.End).Subtract(variables.Select(variable => variable.Start)).Divide(variables.Select(variable => variable.StepSize)).Product();
+                    
+                    double steps = variables.Select(variable => variable.End).Subtract(variables.Select(variable => variable.Start)).Divide(variables.Select(variable => variable.StepSize)).Product();
 
                     generatedClass += "if (update >= " + (steps / 1000) + @")
 " + depthPadding + @"{
 " + depthPadding + @"    update = 0;
-" + depthPadding + "    updateProgress.Report((int)(((double)steps / (double)" + steps + @") * 100));
+" + depthPadding + "    updateProgress.Report(((double)steps / " + steps + @") * 100);
 " + depthPadding + "}";
                 }
             }

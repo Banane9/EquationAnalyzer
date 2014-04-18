@@ -24,9 +24,13 @@ namespace EquationAnalyzer.WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        Progress<double> progress;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            progress = new Progress<double>(value => testingProgress.Value = value);
 
             ObservableCollection<EquationVariable> equationVariables = new ObservableCollection<EquationVariable>(new[]
             {
@@ -66,9 +70,8 @@ namespace EquationAnalyzer.WpfApp
             {
                 Type calculator = results.CompiledAssembly.GetType(name);
                 MethodInfo runTests = calculator.GetMethod("RunTests");
-                Progress<int> progress = new Progress<int>(value => testingProgress.Value = value);
                 IEquationTestResults[] testResults = await Task.Factory.StartNew(() => (IEquationTestResults[])runTests.Invoke(null, new object[] { progress }));
-
+                
                 testResultsTabControl.ItemsSource = testResults;
             }
         }
