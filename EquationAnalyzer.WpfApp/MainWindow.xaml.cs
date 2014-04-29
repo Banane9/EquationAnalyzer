@@ -24,7 +24,7 @@ namespace EquationAnalyzer.WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        Progress<double> progress;
+        private Progress<double> progress;
 
         public MainWindow()
         {
@@ -61,6 +61,9 @@ namespace EquationAnalyzer.WpfApp
 
             if (results.Errors.Count > 0)
             {
+                testingProgress.Foreground = Brushes.Red;
+                testingProgress.Value = 100;
+
                 foreach (CompilerError error in results.Errors)
                 {
                     Console.WriteLine(error);
@@ -68,10 +71,15 @@ namespace EquationAnalyzer.WpfApp
             }
             else
             {
+                testingProgress.Foreground = Brushes.Green;
+                testingProgress.Value = 0;
+                startTestsButton.IsEnabled = false;
+
                 Type calculator = results.CompiledAssembly.GetType(name);
                 MethodInfo runTests = calculator.GetMethod("RunTests");
                 IEquationTestResults[] testResults = await Task.Factory.StartNew(() => (IEquationTestResults[])runTests.Invoke(null, new object[] { progress }));
-                
+
+                startTestsButton.IsEnabled = true;
                 testResultsTabControl.ItemsSource = testResults;
             }
         }
