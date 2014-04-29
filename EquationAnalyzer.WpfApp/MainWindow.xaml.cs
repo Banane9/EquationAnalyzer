@@ -32,25 +32,10 @@ namespace EquationAnalyzer.WpfApp
 
             progress = new Progress<double>(value => testingProgress.Value = value);
 
-            ObservableCollection<EquationVariable> equationVariables = new ObservableCollection<EquationVariable>(new[]
-            {
-                new EquationVariable() { Name = "t", Start = 0, End = 180, StepSize = 0.00001 }
-            });
-            equationVariablesGrid.ItemsSource = equationVariables;
+            equationVariablesGrid.ItemsSource = new ObservableCollection<EquationVariable>();
+            equationsGrid.ItemsSource = new ObservableCollection<Equation>();
+            equationTestsGrid.ItemsSource = new ObservableCollection<EquationTest>();
 
-            ObservableCollection<Equation> equations = new ObservableCollection<Equation>(new Equation[]
-            {
-                new Equation() { Name = "k", Expression = "-4.8 * Math.Cos((Math.PI / 10) * vars[\"t\"]) + 5.2" },
-                new Equation() { Name = "p", Expression = "-21.75 * Math.Cos((Math.PI / 18) * vars[\"t\"]) + 25.25" },
-                new Equation() { Name = "pD", Expression = "(21.75 * (Math.PI / 18)) * Math.Sin((Math.PI / 18) * vars[\"t\"])" }
-            });
-            equationsGrid.ItemsSource = equations;
-
-            ObservableCollection<EquationTest> tests = new ObservableCollection<EquationTest>()
-            {
-                new EquationTest() { Name = "Bradley Sees Nathan", Type = TestTypes.Range, Expression = "results[\"pD\"] > 0 && results[\"p\"] > 6 && results[\"p\"] < 22 && results[\"k\"] > 6" }
-            };
-            equationTestsGrid.ItemsSource = tests;
             ((DataGridComboBoxColumn)equationTestsGrid.Columns[1]).ItemsSource = Enum.GetValues(typeof(TestTypes));
         }
 
@@ -82,6 +67,77 @@ namespace EquationAnalyzer.WpfApp
                 startTestsButton.IsEnabled = true;
                 testResultsTabControl.ItemsSource = testResults;
             }
+        }
+
+        private void variablesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is MenuItem)
+            {
+                if (!sender.Equals(e.OriginalSource))
+                {
+                    int caretIndex = currentTextBox.CaretIndex;
+                    string insertion = "vars[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
+                    currentTextBox.SelectedText = insertion;
+                    currentTextBox.SelectionLength = 0;
+                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                }
+            }
+        }
+
+        private void equationsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is MenuItem)
+            {
+                if (!sender.Equals(e.OriginalSource))
+                {
+                    int caretIndex = currentTextBox.CaretIndex;
+                    string insertion = "results[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
+                    currentTextBox.SelectedText = insertion;
+                    currentTextBox.SelectionLength = 0;
+                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                }
+            }
+        }
+
+        private void mathMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is MenuItem)
+            {
+                if (!sender.Equals(e.OriginalSource))
+                {
+                    int caretIndex = currentTextBox.CaretIndex;
+                    string insertion = "Math." + ((MenuItem)e.OriginalSource).Header;
+                    currentTextBox.SelectedText = insertion;
+                    currentTextBox.SelectionLength = 0;
+                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                }
+            }
+        }
+
+        private void equationVariablesGrid_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            variablesMenuItem.ItemsSource = new ObservableCollection<string>(equationVariablesGrid.ItemsSource.OfType<EquationVariable>().Select(variable => variable.Name).Where(name => !string.IsNullOrWhiteSpace(name)));
+        }
+
+        private void equationsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Console.WriteLine("Selection changed!");
+        }
+
+        private TextBox currentTextBox;
+
+        private void preparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            if (e.EditingElement is TextBox)
+            {
+                currentTextBox = (TextBox)e.EditingElement;
+                currentTextBox.AutoWordSelection = false;
+            }
+        }
+
+        private void equationsGrid_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            equationsMenuItem.ItemsSource = new ObservableCollection<string>(equationsGrid.ItemsSource.OfType<Equation>().Select(equation => equation.Name).Where(name => !string.IsNullOrWhiteSpace(name)));
         }
     }
 }

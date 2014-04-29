@@ -5,16 +5,38 @@
         Title="Equation Analyzer" MinHeight="700" MinWidth="800" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="800" Height="700">
 
     <Grid>
-        <Menu Height="25" VerticalAlignment="Top">
-            <MenuItem Height="25" Width="80" Header="Something">
-                <MenuItem Header="mep" />
+        <Menu VerticalAlignment="Top">
+            <MenuItem x:Name="mathMenuItem" Header="Math" Click="mathMenuItem_Click">
+                <MenuItem Icon=" |x|" Header="Abs" />
+                <MenuItem Icon=" ∡" Header="Acos" />
+                <MenuItem Icon=" ∡" Header="Asin" />
+                <MenuItem Icon=" ∡" Header="Atan" />
+                <MenuItem Icon=" ∡" Header="Cos" />
+                <MenuItem Icon=" ∡" Header="Cosh" />
+                <MenuItem Icon=" eⁿ" Header="Exp" />
+                <MenuItem Icon="a b" Header="Log" />
+                <MenuItem Icon=" a" Header="Log10" />
+                <MenuItem Icon=" &gt;" Header="Max" />
+                <MenuItem Icon=" &lt;" Header="Min" />
+                <MenuItem Icon=" xⁿ" Header="Pow" />
+                <MenuItem Icon=" ∡" Header="Sin" />
+                <MenuItem Icon=" ∡" Header="Sinh" />
+                <MenuItem Icon=" √" Header="Sqrt" />
+                <MenuItem Icon=" ∡" Header="Tan" />
+                <MenuItem Icon=" ∡" Header="Tanh" />
+                <Separator />
+                <MenuItem Icon=" e" Header="E" />
+                <MenuItem Icon=" π" Header="PI" />
             </MenuItem>
+            <MenuItem x:Name="variablesMenuItem" Header="Variables" Click="variablesMenuItem_Click" />
+            <MenuItem x:Name="equationsMenuItem" Header="Equations" Click="equationsMenuItem_Click" />
+            <!--<MenuItem Header="Comparisons..." />-->
         </Menu>
 
         <GroupBox Header="Variables" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="150">
-            <DataGrid x:Name="equationVariablesGrid" Height="128" Width="248" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False" Margin="0">
+            <DataGrid x:Name="equationVariablesGrid" Height="128" Width="248" DataContext="{Binding RelativeSource={RelativeSource Self}}" ItemsSource="{Binding NotifyOnSourceUpdated=True}" Binding.SourceUpdated="equationVariablesGrid_SourceUpdated" AutoGenerateColumns="False" Margin="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="60" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay}" Width="60" />
                     <DataGridTextColumn Header="Start" Binding="{Binding Start}" Width="60" />
                     <DataGridTextColumn Header="End" Binding="{Binding End}" Width="60" />
                     <DataGridTextColumn Header="Step Size" Binding="{Binding StepSize}" Width="60" />
@@ -23,16 +45,16 @@
         </GroupBox>
 
         <GroupBox Header="Equations" Margin="282,35,10,0" VerticalAlignment="Top" Height="150">
-            <DataGrid x:Name="equationsGrid" VerticalAlignment="Top" Height="128" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False">
+            <DataGrid x:Name="equationsGrid" VerticalAlignment="Top" Height="128" DataContext="{Binding RelativeSource={RelativeSource Self}}" ItemsSource="{Binding NotifyOnSourceUpdated=True}" Binding.SourceUpdated="equationsGrid_SourceUpdated"  AutoGenerateColumns="False" PreparingCellForEdit="preparingCellForEdit">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="60" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay}" Width="60" />
                     <DataGridTextColumn Header="Expression" Binding="{Binding Expression}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
 
         <GroupBox Header="Tests" Margin="10,195,10,0" VerticalAlignment="Top" Height="200">
-            <DataGrid x:Name="equationTestsGrid" VerticalAlignment="Top" Height="178" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False">
+            <DataGrid x:Name="equationTestsGrid" VerticalAlignment="Top" Height="178" DataContext="{Binding RelativeSource={RelativeSource Self}}" AutoGenerateColumns="False" PreparingCellForEdit="preparingCellForEdit">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="On" Binding="{Binding Active}" Width="30" />
                     <DataGridComboBoxColumn Header="Type" SelectedValueBinding="{Binding Type}" Width="60" />

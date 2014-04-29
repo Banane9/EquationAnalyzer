@@ -15,5 +15,12 @@ namespace EquationAnalyzer.Generator
         public double Start { get; set; }
 
         public double StepSize { get; set; }
+
+        public EquationVariable()
+        {
+            Start = 0;
+            End = 1;
+            StepSize = 1;
+        }
     }
 }
