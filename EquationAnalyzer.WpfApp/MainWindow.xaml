@@ -35,9 +35,17 @@
                 <MenuItem Icon="  -" Header="Subtract" />
                 <MenuItem Icon="  %" Header="Modulo" />
             </MenuItem>
+            <MenuItem x:Name="comparatorsMenuItem" Header="Comparators" Click="comparatorsMenuItem_Click">
+                <MenuItem Icon="==" Header="Equal To"
+                          ToolTip="Don't use this for testing numbers with decimals places. Use Greater and Lesser Than for a range instead. This works only with integers." />
+                <MenuItem Icon="!=" Header="Unequal To" />
+                <MenuItem Icon="&gt;=" Header="Greater Than or Equal To" />
+                <MenuItem Icon="&gt;" Header="Greater Than" />
+                <MenuItem Icon="&lt;=" Header="Lesser Than or Equal To" />
+                <MenuItem Icon="&lt;" Header="Lesser Than" />
+            </MenuItem>
             <MenuItem x:Name="variablesMenuItem" Header="Variables" Click="variablesMenuItem_Click" />
             <MenuItem x:Name="equationsMenuItem" Header="Equations" Click="equationsMenuItem_Click" />
-            <!--<MenuItem Header="Comparisons..." />-->
         </Menu>
 
         <GroupBox Header="Variables" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="150">
@@ -86,13 +94,13 @@
                     <local:TestResultsDataTemplateSelector>
                         <local:TestResultsDataTemplateSelector.PointTestResultTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" />
+                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
                             </DataTemplate>
                         </local:TestResultsDataTemplateSelector.PointTestResultTemplate>
 
                         <local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" />
+                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
                             </DataTemplate>
                         </local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
                     </local:TestResultsDataTemplateSelector>

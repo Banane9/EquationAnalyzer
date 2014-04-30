@@ -151,23 +151,23 @@ namespace EquationAnalyzer.GeneratedClasses
 " + depthPadding + "    is" + test.Name.Replace(" ", "") + @" = false;
 " + depthPadding + "    ((RangeEquationTestResults)testResults[" + testIndexes[test.Name] + "]).Starts.Add(start" + test.Name.Replace(" ", "") + @");
 " + depthPadding + "    ((RangeEquationTestResults)testResults[" + testIndexes[test.Name] + @"]).Ends.Add(previousVars);
-" + depthPadding + @"}
+" + depthPadding + "}";
+                }
 
-" + depthPadding + @"previousVars = vars;
+                generatedClass += "\r\n" + depthPadding + @"previousVars = vars;
 
 " + depthPadding + @"steps++;
 " + depthPadding + @"update++;
 
 " + depthPadding;
 
-                    double steps = variables.Select(variable => variable.End).Subtract(variables.Select(variable => variable.Start)).Divide(variables.Select(variable => variable.StepSize)).Product();
+                double steps = variables.Select(variable => variable.End).Subtract(variables.Select(variable => variable.Start)).Divide(variables.Select(variable => variable.StepSize)).Product();
 
-                    generatedClass += "if (update >= " + (long)(steps * 0.001) + @")
+                generatedClass += "if (update >= " + (long)(steps * 0.001) + @")
 " + depthPadding + @"{
 " + depthPadding + @"    update = 0;
 " + depthPadding + "    updateProgress.Report(((double)steps / " + steps + @") * 100);
 " + depthPadding + "}";
-                }
             }
 
             for (; depth > 0; depth--)

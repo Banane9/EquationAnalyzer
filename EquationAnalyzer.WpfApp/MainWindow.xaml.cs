@@ -125,6 +125,21 @@ namespace EquationAnalyzer.WpfApp
             }
         }
 
+        private void comparatorsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is MenuItem)
+            {
+                if (!sender.Equals(e.OriginalSource))
+                {
+                    int caretIndex = currentTextBox.CaretIndex;
+                    string insertion = " " + (string)((MenuItem)e.OriginalSource).Icon + " ";
+                    currentTextBox.SelectedText = insertion;
+                    currentTextBox.SelectionLength = 0;
+                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                }
+            }
+        }
+
         private void equationVariablesGrid_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             variablesMenuItem.ItemsSource = new ObservableCollection<string>(equationVariablesGrid.ItemsSource.OfType<EquationVariable>().Select(variable => variable.Name).Where(name => !string.IsNullOrWhiteSpace(name)));
