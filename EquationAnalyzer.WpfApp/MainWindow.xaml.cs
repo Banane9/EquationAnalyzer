@@ -60,6 +60,7 @@ namespace EquationAnalyzer.WpfApp
                 MethodInfo runTests = calculator.GetMethod("RunTests");
                 IEquationTestResults[] testResults = await Task.Factory.StartNew(() => (IEquationTestResults[])runTests.Invoke(null, new object[] { progress }));
 
+                testingProgress.Value = 100;
                 startTestsButton.IsEnabled = true;
                 testResultsTabControl.ItemsSource = testResults;
             }
@@ -67,75 +68,90 @@ namespace EquationAnalyzer.WpfApp
 
         private void variablesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem)
+            if (currentTextBox != null)
             {
-                if (!sender.Equals(e.OriginalSource))
+                if (e.OriginalSource is MenuItem)
                 {
-                    int caretIndex = currentTextBox.CaretIndex;
-                    string insertion = "vars[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
-                    currentTextBox.SelectedText = insertion;
-                    currentTextBox.SelectionLength = 0;
-                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    if (!sender.Equals(e.OriginalSource))
+                    {
+                        int caretIndex = currentTextBox.CaretIndex;
+                        string insertion = "vars[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
+                        currentTextBox.SelectedText = insertion;
+                        currentTextBox.SelectionLength = 0;
+                        currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    }
                 }
             }
         }
 
         private void equationsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem)
+            if (currentTextBox != null)
             {
-                if (!sender.Equals(e.OriginalSource))
+                if (e.OriginalSource is MenuItem)
                 {
-                    int caretIndex = currentTextBox.CaretIndex;
-                    string insertion = "results[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
-                    currentTextBox.SelectedText = insertion;
-                    currentTextBox.SelectionLength = 0;
-                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    if (!sender.Equals(e.OriginalSource))
+                    {
+                        int caretIndex = currentTextBox.CaretIndex;
+                        string insertion = "results[\"" + ((MenuItem)e.OriginalSource).Header + "\"]";
+                        currentTextBox.SelectedText = insertion;
+                        currentTextBox.SelectionLength = 0;
+                        currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    }
                 }
             }
         }
 
         private void mathMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem)
+            if (currentTextBox != null)
             {
-                if (!sender.Equals(e.OriginalSource))
+                if (e.OriginalSource is MenuItem)
                 {
-                    int caretIndex = currentTextBox.CaretIndex;
-                    string insertion = "Math." + ((MenuItem)e.OriginalSource).Header;
-                    currentTextBox.SelectedText = insertion;
-                    currentTextBox.SelectionLength = 0;
-                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    if (!sender.Equals(e.OriginalSource))
+                    {
+                        int caretIndex = currentTextBox.CaretIndex;
+                        string insertion = "Math." + ((MenuItem)e.OriginalSource).Header;
+                        currentTextBox.SelectedText = insertion;
+                        currentTextBox.SelectionLength = 0;
+                        currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    }
                 }
             }
         }
 
         private void operatorsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem)
+            if (currentTextBox != null)
             {
-                if (!sender.Equals(e.OriginalSource))
+                if (e.OriginalSource is MenuItem)
                 {
-                    int caretIndex = currentTextBox.CaretIndex;
-                    string insertion = ((string)((MenuItem)e.OriginalSource).Icon).Remove(0, 1) + " ";
-                    currentTextBox.SelectedText = insertion;
-                    currentTextBox.SelectionLength = 0;
-                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    if (!sender.Equals(e.OriginalSource))
+                    {
+                        int caretIndex = currentTextBox.CaretIndex;
+                        string insertion = ((string)((MenuItem)e.OriginalSource).Icon).Remove(0, 1) + " ";
+                        currentTextBox.SelectedText = insertion;
+                        currentTextBox.SelectionLength = 0;
+                        currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    }
                 }
             }
         }
 
         private void comparatorsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is MenuItem)
+            if (currentTextBox != null)
             {
-                if (!sender.Equals(e.OriginalSource))
+                if (e.OriginalSource is MenuItem)
                 {
-                    int caretIndex = currentTextBox.CaretIndex;
-                    string insertion = " " + (string)((MenuItem)e.OriginalSource).Icon + " ";
-                    currentTextBox.SelectedText = insertion;
-                    currentTextBox.SelectionLength = 0;
-                    currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    if (!sender.Equals(e.OriginalSource))
+                    {
+                        int caretIndex = currentTextBox.CaretIndex;
+                        string insertion = " " + (string)((MenuItem)e.OriginalSource).Icon + " ";
+                        currentTextBox.SelectedText = insertion;
+                        currentTextBox.SelectionLength = 0;
+                        currentTextBox.CaretIndex = caretIndex + insertion.Length;
+                    }
                 }
             }
         }

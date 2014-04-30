@@ -34,6 +34,9 @@
                 <MenuItem Icon="  +" Header="Add" />
                 <MenuItem Icon="  -" Header="Subtract" />
                 <MenuItem Icon="  %" Header="Modulo" />
+                <Separator />
+                <MenuItem Icon="&amp;&amp;" Header="And" FontSize="11" />
+                <MenuItem Icon="  ||" Header="Or" />
             </MenuItem>
             <MenuItem x:Name="comparatorsMenuItem" Header="Comparators" Click="comparatorsMenuItem_Click">
                 <MenuItem Icon="==" Header="Equal To"
