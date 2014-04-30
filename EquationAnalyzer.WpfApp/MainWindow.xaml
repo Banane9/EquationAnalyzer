@@ -28,6 +28,13 @@
                 <MenuItem Icon=" e" Header="E" />
                 <MenuItem Icon=" π" Header="PI" />
             </MenuItem>
+            <MenuItem x:Name="operatorsMenuItem" Header="Operators" Click="operatorsMenuItem_Click">
+                <MenuItem Icon="  *" Header="Multiply" />
+                <MenuItem Icon="  /" Header="Divide" />
+                <MenuItem Icon="  +" Header="Add" />
+                <MenuItem Icon="  -" Header="Subtract" />
+                <MenuItem Icon="  %" Header="Modulo" />
+            </MenuItem>
             <MenuItem x:Name="variablesMenuItem" Header="Variables" Click="variablesMenuItem_Click" />
             <MenuItem x:Name="equationsMenuItem" Header="Equations" Click="equationsMenuItem_Click" />
             <!--<MenuItem Header="Comparisons..." />-->
