@@ -86,13 +86,13 @@
                     <local:TestResultsDataTemplateSelector>
                         <local:TestResultsDataTemplateSelector.PointTestResultTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Text}" />
+                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" />
                             </DataTemplate>
                         </local:TestResultsDataTemplateSelector.PointTestResultTemplate>
 
                         <local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Text}" />
+                                <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" />
                             </DataTemplate>
                         </local:TestResultsDataTemplateSelector.RangeTestResultTemplate>
                     </local:TestResultsDataTemplateSelector>
